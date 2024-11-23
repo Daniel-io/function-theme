@@ -1,0 +1,13 @@
+{
+  "runtime": "nodejs18.x",
+  "version": "1.0",
+  "endpoints": {
+    "playground": {
+      "method": "GET",
+      "file": "playground.js"
+    }
+  }
+}
+
+
+
