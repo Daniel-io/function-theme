@@ -1,1 +1,78 @@
-<!-- FUNCTION FORM -->
+<h2>Serverless Function Form</h2>
+
+<div id="form-wrap">
+  Test
+</div>
+
+<script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+<script>
+
+
+
+  // On load create the form
+  window.addEventListener('load', () => {
+    hbspt.forms.create({
+      portalId: "21896595",
+      formId: "af700f27-fd9b-49e3-9919-a133650802c2",
+      target: "#form-wrap"
+    });
+  });
+
+
+
+
+
+  // Listen for form submission events
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormSubmitted') { //Make sure it is the event after form is submitted
+      const formData = event.data.data.submissionValues;
+      console.log("Received form submission:", formData); //debug
+      sendToServerlessFunction(formData);
+    }
+  });
+
+
+
+
+
+  let validateFormData = (data) => {
+    if (!data.email || !data.firstname || !data.lastname) {
+      console.error("Validation failed: Email is missing");
+      return false;
+    }
+    // Add other validation rules as needed
+    return true;
+  };
+
+
+
+
+
+  let sendToServerlessFunction = (thisFormData) => {
+  
+    if (!validateFormData(thisFormData)) { //if value is empty, log failed message
+      console.log("Form data validation failed. Aborting submission.");
+      return;
+    }
+
+    console.log("Sending data to serverless function..."); //Update on progress
+    fetch('/_hcms/api/playground', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(thisFormData)
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => { 
+
+      console.log('Data successfully sent to Serverless Function:', data) 
+      
+      })
+      .catch((error) => console.error('Failed to send data to Serverless Function:', error));
+  };
+
+</script>
