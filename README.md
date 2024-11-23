@@ -1,4 +1,4 @@
-<h1 align="center">HubSpot CMS Boilerplate</h1>
+<h1 align="center">HubSpot CMS Boilerplate - FUNCTION THEME</h1>
 
 <p align="center">
   A straight-forward starting point for building a great website on the HubSpot CMS.
