@@ -1,8 +1,8 @@
 <h2>Serverless Function Form</h2>
 
 <div id="form-wrap">
-  Test
-</div>
+  Test 1
+</div> 
 
 
 
@@ -34,7 +34,7 @@
     if (event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormSubmitted') { //Make sure it is the event after form is submitted
       const formData = event.data.data.submissionValues;
       console.log("Received form submission:", formData); //debug
-      sendToServerlessFunction(formData);
+      sendToServerlessFunction(formData); //Send event data (Form input values) to the serverless function
     }
   });
 
@@ -43,8 +43,8 @@
 
 
   let validateFormData = (data) => {
-    if (!data.email || !data.firstname || !data.lastname) {
-      console.error("Validation failed: Email is missing");
+    if (!data.email || !data.firstname || !data.lastname) { //If values is empty the execute if block (alert error)
+      console.error("Validation failed: Value is missing is missing");
       return false;
     }
     // Add other validation rules as needed
@@ -63,7 +63,7 @@
     }
 
     console.log("Sending data to serverless function..."); //Update on progress
-    fetch('/_hcms/api/playground', {
+    fetch('/_hcms/api/createrow', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(thisFormData)
@@ -76,10 +76,13 @@
       })
       .then((data) => { 
 
-        console.log('Data successfully sent to Serverless Function:', data) 
+      console.log('Full response object !1:', data); // Log the full response to inspect its structure
+      console.log('Message:', data.message); // Should print "Data received!"
+      console.log('Data:', data.data); // Should print { "id": 1, "name": "Sample Data" }
       
       })
       .catch((error) => console.error('Failed to send data to Serverless Function:', error));
+
   };
 
 
